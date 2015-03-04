@@ -35,5 +35,11 @@ public class GraphMLTokens {
     public static final String BOOLEAN = "boolean";
     public static final String INT = "int";
     public static final String _DEFAULT = "_default";
+    
+    //yEd keys
+    public static final String Y_PROPERTY = "y";
+    public static final String X_PROPERTY = "x";
+    public static final String GEOMETRY = "Geometry";
+    public static final String NODE_LABEL = "NodeLabel";
 
 }
