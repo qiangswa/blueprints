@@ -3,6 +3,7 @@ package com.tinkerpop.blueprints.util.io.graphml;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 
@@ -13,7 +14,7 @@ public interface IWriterEmitter {
 
 	public void endEdgeKeyTypes(XMLStreamWriter writer) throws XMLStreamException;
 
-	public void endEdge(XMLStreamWriter writer, Object value, String type) throws XMLStreamException;
+	public void endEdge(XMLStreamWriter writer, Edge edge, String key,String type) throws XMLStreamException;
 
 	public void endGraphMLProperties(XMLStreamWriter writer) throws XMLStreamException;
 

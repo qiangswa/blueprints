@@ -183,12 +183,27 @@ public class GraphMLReader {
             throw new IOException(xse);
         }
     }
+    
+    public static void inputGraph(Graph inputGraph, XMLStreamReader reader, String vertexIdKey, String edgeIdKey, String edgeLabelKey) throws XMLStreamException
+    {
+        inputGraph(inputGraph, reader, vertexIdKey, edgeIdKey, edgeLabelKey, null, null);
+    }
 
 	public static void inputGraph(final Graph inputGraph, final XMLStreamReader reader, String vertexIdKey, String edgeIdKey,
-			String edgeLabelKey
-			) throws XMLStreamException {
+			String edgeLabelKey,Map<String, String> parentKeyIdMap, Map<String, String> parentKeyTypemap) throws XMLStreamException {
+		
+		
 		Map<String, String> keyIdMap = new HashMap<String, String>();
+		
+		if (parentKeyIdMap != null) {
+			keyIdMap.putAll(parentKeyIdMap);
+		}
+		
 		Map<String, String> keyTypesMaps = new HashMap<String, String>();
+		if (parentKeyTypemap != null) {
+			 keyTypesMaps.putAll(parentKeyTypemap);
+		}
+		 
 		// <Mapped ID String, ID Object>
 
 		// <Default ID String, Mapped ID String>
@@ -212,6 +227,11 @@ public class GraphMLReader {
 		    if (eventType.equals(XMLEvent.START_ELEMENT)) {
 		    	
 		        String elementName = reader.getName().getLocalPart();
+		        
+		        if ((elementName.equals("graph")) &&  (readEmitter != null)) {
+		        	readEmitter.readGraph(reader);
+		        }
+		        
 		        if (elementName.equals(GraphMLTokens.KEY)) {
 		            String id = reader.getAttributeValue(null, GraphMLTokens.ID);
 		            String attributeName = reader.getAttributeValue(null, GraphMLTokens.ATTR_NAME);
@@ -281,12 +301,14 @@ public class GraphMLReader {
 		                        edgeId = value;
 		                    else
 		                        edgeProps.put(attributeName, typeCastValue(key, value, keyTypesMaps));
+		                }else if (readEmitter != null) {
+		                	readEmitter.readData(reader, key, value, attributeName);
 		                }
 		            }
 		        }else {
 		        	if(readEmitter!=null){
 		        		if(inVertex){
-		        			readEmitter.readInVertex(reader,vertexProps);	
+		        			readEmitter.readInVertex(reader, vertexProps, keyIdMap, keyTypesMaps);
 		        		}else if(inEdge){
 		        			readEmitter.readInEdge(reader,edgeProps);
 		        		}else{

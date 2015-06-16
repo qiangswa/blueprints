@@ -306,7 +306,7 @@ public class GraphMLWriter {
 		            	String type = edgeKeyTypes.get(key);
 		           	 if(!isKnownType(type)){
 		                	if(getWriterListener()!=null){
-		                		getWriterListener().endEdge(writer,value,type);
+		                		getWriterListener().endEdge(writer, edge, key, type);
 		                	}
 		                }else{
 		                	writer.writeCharacters(value.toString());
@@ -333,7 +333,7 @@ public class GraphMLWriter {
 		                	 String type = edgeKeyTypes.get(key);
 		                	 if(!isKnownType(type)){
 		                    	if(getWriterListener()!=null){
-		                    		getWriterListener().endEdge(writer,value,type);
+		                    		getWriterListener().endEdge(writer, edge, key, type);
 		                    	}
 		                    }else{
 		                    	writer.writeCharacters(value.toString());
